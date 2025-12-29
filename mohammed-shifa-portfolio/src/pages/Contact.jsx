@@ -35,6 +35,7 @@ export default function Contact() {
           headers: { "Content-Type": "application/json" },
         }
       );
+      console.log("Using API URL:", import.meta.env.VITE_API_URL);
 
       setStatus("Message sent successfully! I’ll get back to you soon.");
       setFormData({ name: "", email: "", message: "" });
