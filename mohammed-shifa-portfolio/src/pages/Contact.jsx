@@ -28,11 +28,13 @@ export default function Contact() {
     setStatus("");
 
     try {
-      const API_URL = import.meta.env.VITE_API_URL;
-
-      await axios.post(`${API_URL}/api/contact`, formData, {
-        headers: { "Content-Type": "application/json" },
-      });
+      await axios.post(
+        "https://mamesportfolio.onrender.com/api/contact",
+        formData,
+        {
+          headers: { "Content-Type": "application/json" },
+        }
+      );
 
       setStatus("Message sent successfully! I’ll get back to you soon.");
       setFormData({ name: "", email: "", message: "" });
