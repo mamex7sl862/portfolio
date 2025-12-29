@@ -11,9 +11,13 @@ app.use(express.json());
 
 app.use(
   cors({
-    origin: ["https://mamesportfolio.vercel.app", "http://localhost:5173"],
+    origin: [
+      "https://mamesportfolio.vercel.app",
+      /\.vercel\.app$/,
+      "http://localhost:5173",
+    ],
     methods: ["GET", "POST"],
-    credentials: true,
+    allowedHeaders: ["Content-Type"],
   })
 );
 
