@@ -6,27 +6,31 @@ const dotenv = require("dotenv");
 dotenv.config();
 
 const app = express();
+
 app.use(express.json());
+
 app.use(
   cors({
-    origin: [
-      "http://localhost:5173",
-      "https://mohammed-shifa-portfolio.vercel.app",
-    ], // Update with your Vercel URL later
+    origin: ["https://mamesportfolio.vercel.app", "http://localhost:5173"],
+    methods: ["GET", "POST"],
+    credentials: true,
   })
 );
+
+app.get("/", (req, res) => res.send("API is running 🚀"));
 
 const transporter = nodemailer.createTransport({
   service: "gmail",
   auth: {
-    user: process.env.EMAIL_USER, // your email
+    user: process.env.EMAIL_USER,
     pass: process.env.EMAIL_PASS,
-    // Gmail App Password (not regular password!)
   },
 });
 
+// Contact API with console logging
 app.post("/api/contact", async (req, res) => {
   const { name, email, message } = req.body;
+  console.log("Received contact:", { name, email, message });
 
   if (!name || !email || !message) {
     return res.status(400).json({ message: "All fields are required" });
@@ -34,21 +38,19 @@ app.post("/api/contact", async (req, res) => {
 
   try {
     await transporter.sendMail({
-      from: `"Portfolio Contact" <${process.env.EMAIL_USER}>`, // ✅ FIX
-      replyTo: email, // 👈 YOU can reply to the user
+      from: `"Portfolio Contact" <${process.env.EMAIL_USER}>`,
+      replyTo: email,
       to: process.env.EMAIL_USER,
       subject: `Portfolio Contact from ${name}`,
-      html: `
-        <h2>New Portfolio Message</h2>
-        <p><strong>Name:</strong> ${name}</p>
-        <p><strong>Email:</strong> ${email}</p>
-        <p><strong>Message:</strong></p>
-        <p>${message}</p>
-        <hr />
-        <small>Sent from your portfolio website</small>
-      `,
+      html: `<h2>New Portfolio Message</h2>
+             <p><strong>Name:</strong> ${name}</p>
+             <p><strong>Email:</strong> ${email}</p>
+             <p><strong>Message:</strong></p>
+             <p>${message}</p>
+             <hr />
+             <small>Sent from your portfolio website</small>`,
     });
-
+    console.log("Email sent successfully");
     res.status(200).json({ message: "Email sent successfully" });
   } catch (error) {
     console.error("EMAIL ERROR:", error);
