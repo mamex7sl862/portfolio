@@ -28,14 +28,14 @@ export default function Contact() {
     setStatus("");
 
     try {
-      await axios.post(
-        "https://mamesportfolio.onrender.com/api/contact",
-        formData,
-        {
-          headers: { "Content-Type": "application/json" },
-        }
-      );
-      console.log("Using API URL:", import.meta.env.VITE_API_URL);
+      // Using Render backend
+      const API_URL = "https://mamesportfolio.onrender.com";
+
+      await axios.post(`${API_URL}/api/contact`, formData, {
+        headers: { "Content-Type": "application/json" },
+      });
+
+      console.log("Message sent via:", API_URL);
 
       setStatus("Message sent successfully! I’ll get back to you soon.");
       setFormData({ name: "", email: "", message: "" });
@@ -77,7 +77,7 @@ export default function Contact() {
                 onChange={handleChange}
                 required
                 className="w-full px-6 py-4 border border-gray-300 rounded-xl focus:outline-none focus:ring-4 focus:ring-purple-300"
-                placeholder="Mohammed Shifa"
+                placeholder="Your Name"
               />
             </div>
 
