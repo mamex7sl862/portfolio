@@ -28,11 +28,11 @@ export default function Contact() {
     setStatus("");
 
     try {
-      await axios.post(
-        `${import.meta.env.VITE_API_URL}/api/contact`,
-        formData,
-        { headers: { "Content-Type": "application/json" } }
-      );
+      const API_URL = import.meta.env.VITE_API_URL;
+
+      await axios.post(`${API_URL}/api/contact`, formData, {
+        headers: { "Content-Type": "application/json" },
+      });
 
       setStatus("Message sent successfully! I’ll get back to you soon.");
       setFormData({ name: "", email: "", message: "" });
@@ -62,7 +62,6 @@ export default function Contact() {
             out!
           </p>
 
-          {/* ================= CONTACT FORM ================= */}
           <form onSubmit={handleSubmit} className="space-y-8">
             <div>
               <label className="block text-gray-700 font-medium mb-2">
@@ -130,7 +129,6 @@ export default function Contact() {
             )}
           </form>
 
-          {/* ================= SOCIAL MEDIA LINKS ================= */}
           <div className="mt-14 text-center">
             <h3 className="text-2xl font-semibold text-gray-800 mb-6">
               Connect With Me
